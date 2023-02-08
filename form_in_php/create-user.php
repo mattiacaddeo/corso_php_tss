@@ -17,7 +17,7 @@
 
         </div>
         <div class="col-sm-4">
-            <form class="mt-1 mt-md-5" action="register-user.php" method="get">
+            <form class="mt-1 mt-md-5" action="register-user.php" method="POST">
                 <div class="mb-3">
                      <label for="first_name" class="form-label">Nome</label>
                      <input type="text" class="form-control" name="first_name" id="first_name">
@@ -47,7 +47,6 @@
                     <select class="form-control" name="gender" id="gender">
                          <option>F</option>
                          <option>M</option>
-                         <option>Altro</option>
                     </select>               
                 </div> 
                 <div class="mb-3">
@@ -58,7 +57,7 @@
                      <label for="password" class="form-label">Password</label>
                      <input type="password" id="password" name="password" class="form-control">
                 </div>
-                <button class="btn btn-primary btn-sm"  type="submit"> Registrati </button>
+                <button class="btn btn-primary btn-sm"  type="submit">Registrati</button>
              </form>
         </div>
 

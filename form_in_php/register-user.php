@@ -1,19 +1,57 @@
 <?php
 
-
-print_r($_GET);
-
-$test = filter_input(
-    INPUT_GET,
-    'email',
-    FILTER_VALIDATE_EMAIL
+$first_name = filter_input(
+    INPUT_POST,
+    'first_name',
+    FILTER_SANITIZE_SPECIAL_CHARS
 );
 
-if($test === false) {
-    echo "\nLa mail non è valida\n";
-} else {
-    echo "\nGrazie la tua email è valida: $test";
-}
+$last_name = filter_input(
+    INPUT_POST,
+    'last_name',
+    FILTER_SANITIZE_SPECIAL_CHARS
+);
 
+$birthday = filter_input(
+    INPUT_POST,
+    'birthday',
+    FILTER_DEFAULT
+);
+
+$birth_place = filter_input(
+    INPUT_POST,
+    'birth_place',
+    FILTER_SANITIZE_SPECIAL_CHARS
+);
+
+$gender = filter_input(
+    INPUT_POST,
+    'gender',
+    FILTER_SANITIZE_SPECIAL_CHARS
+);
+
+$username = filter_input(
+    INPUT_POST,
+    'username',
+    FILTER_SANITIZE_SPECIAL_CHARS
+);
+
+$password = filter_input(
+    INPUT_POST,
+    'password',
+    FILTER_DEFAULT
+);
+
+var_dump($first_name);
+var_dump($last_name);
+var_dump($birthday);
+var_dump($birth_place);
+var_dump($gender);
+var_dump($username);
+var_dump($password);
+
+// echo "<pre>";
+// print_r($_POST);
+// echo "</pre>";
 
 ?>
