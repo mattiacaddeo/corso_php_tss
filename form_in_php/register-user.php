@@ -33,13 +33,13 @@ $gender = filter_input(
 $username = filter_input(
     INPUT_POST,
     'username',
-    FILTER_SANITIZE_SPECIAL_CHARS
+    FILTER_VALIDATE_EMAIL
 );
 
 $password = filter_input(
     INPUT_POST,
     'password',
-    FILTER_DEFAULT
+    FILTER_SANITIZE_SPECIAL_CHARS
 );
 
 var_dump($first_name);

@@ -51,7 +51,7 @@
                 </div> 
                 <div class="mb-3">
                      <label for="username" class="form-label">Nome utente</label>
-                     <input type="text" class="form-control" name="username" id="username">
+                     <input type="email" class="form-control" name="username" id="username">
                 </div>  
                 <div class="mb-3">
                      <label for="password" class="form-label">Password</label>
