@@ -3,53 +3,23 @@
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 //phpinfo();
+
+/** Aggiungere la validazione del nome utente, deve essere un email corretta */
 require "./class/validator/Validable.php";
 require "./class/validator/ValidateRequired.php";
 
-print_r($_SERVER['REQUEST_METHOD']);
-print_r($_POST);
-// Questo script viene eseguito quando visualizzo per la prima volta il form
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-     $validatedName = '';
-     $isValidNameClass = '';
-     $isValidLastNameClass = '';
-     $isValidClassDate = '';
-     $isValidClassBirthplace = '';
-     $isValidClassEmail = '';
-     $isValidClassGender = '';
-     $isValidClassPassword = '';
-}
+// print_r($_SERVER['REQUEST_METHOD']);
+// print_r($_POST);
+
+$validatorName = new ValidateRequired('', 'Il nome è obbligatorio');
+$validatorLastName = new ValidateRequired('', 'Il cognome è obbligatorio');
+$validatorEmail = new ValidateRequired();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-     echo 'dati inviati adesso li devo controllare';
-     $validatorName = new ValidateRequired();
+     
      $validatedName = $validatorName->isValid($_POST['first_name']);
-     $isValidNameClass = $validatedName ? '' : ' is-invalid';
-
-     $validatorLastName = new ValidateRequired();
      $validatedLastName = $validatorLastName->isValid($_POST['last_name']);
-     $isValidLastNameClass = $validatedLastName ? '' : ' is-invalid';
 
-     $validatorDate = new ValidateRequired();
-     $validatedDate = $validatorDate->isValid($_POST['birthday']);
-     $isValidClassDate = $validatedDate ? '' : ' is-invalid';
-
-     $validatorBirthplace = new ValidateRequired();
-     $validatedBirthplace = $validatorBirthplace->isValid($_POST['birth_place']);
-     $isValidClassBirthplace = $validatedBirthplace ? '' : ' is-invalid';
-
-     $validatorEmail = new ValidateRequired();
-     $validatedEmail = $validatorEmail->isValid($_POST['first_name']);
-     $isValidClassEmail = $validatedEmail ? '' : ' is-invalid';
-
-     $validatorGender = new ValidateRequired();
-     $validatedGender = $validatorGender->isValid(!isset($_POST['gender']) ? '' : $_POST['gender']);
-    
-     $isValidClassGender = $validatedGender ? '' : ' is-invalid';
-
-     $validatorPassword = new ValidateRequired();
-     $validatedPassword = $validatorPassword->isValid($_POST['password']);
-     $isValidClassPassword = $validatedPassword ? '' : ' is-invalid';
 }
 // } else {
 //      echo "l'utente deve ancora compilare il form";
@@ -57,6 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // is-invalid
 //<input type="text" class="form-control is-invalid" name="first_name" id="first_name">
+
+// Questo script viene eseguito quando visualizzo per la prima volta il form
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+     
+}
 ?>
 
 
@@ -84,27 +59,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form class="mt-1 mt-md-5" action="create-user.php" method="POST">
                          <div class="mb-3">
                               <label for="first_name" class="form-label">Nome</label>
-                              <input type="text" value="<?php echo ($validatedName)? $validatedName : ''; ?>" class="form-control <?php echo $isValidNameClass; ?>" name="first_name" id="first_name">
+                              <input type="text" value="<?= $validatorName->getValue(); ?>" 
+                                   class="form-control <?php echo !$validatorName->getValid()? 'is-invalid' :'' ?>" 
+                                   name="first_name" id="first_name">
                               <?php
-                                   //isset($validatedName) &&
-                                   if(isset($validatedName) && !$validatedName) { ?>
+                                   if(!$validatorName->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             il nome è obbligatorio
+                                             <?= $validatorName->getMessage(); ?>
                                         </div>
                                     <?php
-                                   } ?>
+                                   endif ?>
                          </div>
                          <div class="mb-3">
                               <label for="last_name" class="form-label">Cognome</label>
-                              <input type="text" class="form-control <?php echo $isValidLastNameClass; ?>" name="last_name" id="last_name">
-                              <?php
-                                   //isset($validatedName) &&
-                                   if(isset($validatedLastName) && !$validatedLastName) { ?>
+                              <input type="text" value="<?= $validatorLastName->getValue(); ?>" 
+                                   class="form-control <?php echo !$validatorLastName->getValid()? 'is-invalid' :'' ?>"
+                                   name="last_name" id="last_name">
+                                   <?php
+                                   if(!$validatorLastName->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             il cognome è obbligatorio
+                                             <?= $validatorLastName->getMessage(); ?>
                                         </div>
                                     <?php
-                                   } ?>
+                                   endif ?>
                               
                          </div>
                          <div class="mb-3">
