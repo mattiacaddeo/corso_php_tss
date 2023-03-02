@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 ?>
 
-
 <!doctype html>
 <html lang="en">
 
