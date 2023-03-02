@@ -10,12 +10,14 @@ print_r($_SERVER['REQUEST_METHOD']);
 print_r($_POST);
 // Questo script viene eseguito quando visualizzo per la prima volta il form
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+     $validatedName = '';
      $isValidNameClass = '';
      $isValidLastNameClass = '';
      $isValidClassDate = '';
      $isValidClassBirthplace = '';
      $isValidClassEmail = '';
      $isValidClassGender = '';
+     $isValidClassPassword = '';
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
      $validatorBirthplace = new ValidateRequired();
      $validatedBirthplace = $validatorBirthplace->isValid($_POST['birth_place']);
-     $isValidClassBirthplace = $validatorBirthplace ? '' : ' is-invalid';
+     $isValidClassBirthplace = $validatedBirthplace ? '' : ' is-invalid';
 
      $validatorEmail = new ValidateRequired();
      $validatedEmail = $validatorEmail->isValid($_POST['first_name']);
@@ -44,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      $validatedGender = $validatorGender->isValid(!isset($_POST['gender']) ? '' : $_POST['gender']);
     
      $isValidClassGender = $validatedGender ? '' : ' is-invalid';
+
+     $validatorPassword = new ValidateRequired();
+     $validatedPassword = $validatorPassword->isValid($_POST['password']);
+     $isValidClassPassword = $validatedPassword ? '' : ' is-invalid';
 }
 // } else {
 //      echo "l'utente deve ancora compilare il form";
@@ -78,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form class="mt-1 mt-md-5" action="create-user.php" method="POST">
                          <div class="mb-3">
                               <label for="first_name" class="form-label">Nome</label>
-                              <input type="text" value="" class="form-control <?php echo $isValidNameClass; ?>" name="first_name" id="first_name">
+                              <input type="text" value="<?php echo ($validatedName)? $validatedName : ''; ?>" class="form-control <?php echo $isValidNameClass; ?>" name="first_name" id="first_name">
                               <?php
                                    //isset($validatedName) &&
                                    if(isset($validatedName) && !$validatedName) { ?>
@@ -115,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          </div>
                          <div class="mb-3">
                               <label for="birth_place" class="form-label">Luogo di nascita</label>
-                              <input type="text" class="form-control <?php echo $isValidClassBirthPlace; ?>" name="birth_place" id="birth_place">
+                              <input type="text" class="form-control <?php echo $isValidClassBirthplace; ?>" name="birth_place" id="birth_place">
                               <?php
                                    //isset($validatedBirthplace) &&
                                    if(!$validatedBirthplace) { ?>
@@ -179,10 +185,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                               </div>
                               <div class="mb-3">
                                    <label for="password" class="form-label">Password</label>
-                                   <input type="password" id="password" name="password" class="form-control">
-                                   <div class="invalid-feedback">
-                                        la password è obbligatoria
-                                   </div>
+                                   <input type="password" id="password" name="password" class="form-control <?php echo $isValidClassPassword; ?>">
+                                   <?php
+                                   if(!$validatedPassword) : ?>
+                                        <div class="invalid-feedback">
+                                             la password è obbligatoria
+                                        </div>
+                                    <?php
+                                   endif ?>
+                                   
                               </div>
                               <button class="btn btn-primary btn-sm" type="submit">Registrati</button>
                     </form>
