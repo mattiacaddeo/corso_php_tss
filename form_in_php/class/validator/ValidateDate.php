@@ -1,7 +1,6 @@
 <?php
 
-class ValidateDate implements Validable
-{
+class ValidateDate implements Validable {
 
     public function isValid($value)
     {
@@ -16,5 +15,15 @@ class ValidateDate implements Validable
         } else {
             return $result;
         }
+    }
+
+    public function getMessage() {
+
+    }
+    public function getValid() {
+
+    }
+    public function getValue() {
+
     }
 }
