@@ -20,6 +20,7 @@ class ValidateMail implements Validable {
             $this->valid = false;
             return false;
         }
+        
         $this->email = filter_var($valueWithoutSpace, FILTER_VALIDATE_EMAIL);
         return filter_var($valueWithoutSpace, FILTER_VALIDATE_EMAIL);
     }

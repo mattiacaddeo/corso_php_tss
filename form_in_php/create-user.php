@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          </div>
                               <div class="mb-3">
                                    <label for="username" class="form-label">Nome utente</label>
-                                   <input type="email" value="<?= $validatorEmail->getValue(); ?>" 
+                                   <input type="text" value="<?= $validatorEmail->getValue(); ?>" 
                                         class="form-control <?php echo !$validatorEmail->getValid()? 'is-invalid' : '' ?>" 
                                         name="username" id="username">
                                    <?php
