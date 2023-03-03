@@ -13,7 +13,7 @@ class ValidateMail implements Validable {
         $this->valid = true;
     }
 
-    public function isValid(mixed $email):bool {
+    public function isValid(mixed $email) {
         $strip_tag = strip_tags($email);
         $valueWithoutSpace = trim($strip_tag);
         if($valueWithoutSpace == '') {

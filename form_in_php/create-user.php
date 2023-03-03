@@ -9,21 +9,28 @@ require "./class/validator/Validable.php";
 require "./class/validator/ValidateRequired.php";
 require "./class/validator/ValidateMail.php";
 require "./class/validator/ValidateDate.php";
+require "./class/validator/ValidatePassword.php";
 
 // print_r($_SERVER['REQUEST_METHOD']);
-// print_r($_POST);
+print_r($_POST);
 
 $validatorName = new ValidateRequired('', 'Il nome è obbligatorio');
 $validatorLastName = new ValidateRequired('', 'Il cognome è obbligatorio');
-$validatorEmail = new ValidateMail('', 'email obbligatoria');
 $validatorDate = new ValidateDate('', 'data obbligatoria');
+$validatorBirthplace = new ValidateRequired('', 'Il luogo di nascita è obbligatorio');
+$validatorGender = new ValidateRequired('', 'Il gender è obbligatorio');
+$validatorEmail = new ValidateMail('', 'email obbligatoria');
+$validatorPassword = new ValidatePassword('', 'password obbligatoria');
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      
      $validatedName = $validatorName->isValid($_POST['first_name']);
      $validatedLastName = $validatorLastName->isValid($_POST['last_name']);
-     $validatedEmail = $validatorEmail->isValid($_POST['username']);
      $validatedDate = $validatorDate->isValid($_POST['birthday']);
+     $validatedBirthplace = $validatorBirthplace->isValid($_POST['birth_place']);
+     $validatedEmail = $validatorEmail->isValid($_POST['username']);
+     $validatedPassword = $validatorPassword->isValid($_POST['password']);
 
 }
 // } else {
@@ -103,12 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          </div>
                          <div class="mb-3">
                               <label for="birth_place" class="form-label">Luogo di nascita</label>
-                              <input type="text" class="form-control <?php echo $isValidClassBirthplace; ?>" name="birth_place" id="birth_place">
+                              <input type="text" value="<?= $validatorBirthplace->getValue(); ?>" 
+                                   class="form-control <?php echo !$validatorBirthplace->getValid()? 'is-invalid' :'' ?>" 
+                                   name="birth_place" id="birth_place">
                               <?php
-                                   //isset($validatedBirthplace) &&
-                                   if(!$validatedBirthplace) : ?>
+                                   if(!$validatorBirthplace->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             il luogo di nascita è obbligatorio
+                                             <?= $validatorBirthplace->getMessage(); ?>
                                         </div>
                                     <?php
                                    endif ?>
@@ -154,8 +162,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          </div>
                               <div class="mb-3">
                                    <label for="username" class="form-label">Nome utente</label>
-                                   <input type="email" value="<?= $validatorEmail->getValue(); ?>"
-                                        class="form-control <?php echo !$validatorEmail->getValid()? 'is-invalid' :'' ?>" 
+                                   <input type="email" value="<?= $validatorEmail->getValue(); ?>" 
+                                        class="form-control <?php echo !$validatorEmail->getValid()? 'is-invalid' : '' ?>" 
                                         name="username" id="username">
                                    <?php
                                    if(!$validatorEmail->getValid()) : ?>
@@ -167,11 +175,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                               </div>
                               <div class="mb-3">
                                    <label for="password" class="form-label">Password</label>
-                                   <input type="password" id="password" name="password" class="form-control <?php echo $isValidClassPassword; ?>">
+                                   <input type="password" value="<?= $validatorPassword->getValue(); ?>" 
+                                        id="password" name="password" 
+                                        class="form-control <?php echo !$validatorPassword->getValid()? 'is-invalid' : '' ?>"> 
                                    <?php
-                                   if(!$validatedPassword) : ?>
+                                   if(!$validatorPassword->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             la password è obbligatoria
+                                             <?= $validatorPassword->getMessage(); ?>
                                         </div>
                                     <?php
                                    endif ?>
