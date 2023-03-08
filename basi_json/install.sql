@@ -18,7 +18,8 @@ CREATE TABLE Provincia (
     nome varchar(255) NOT NULL,
     sigla char(2) NOT NULL,
     id_regione int,
-    PRIMARY KEY (id_provincia)
+    PRIMARY KEY (id_provincia),
+    FOREIGN KEY (id_regione) REFERENCES Regione(id_regione)
 );
 
 SELECT * FROM Provincia;

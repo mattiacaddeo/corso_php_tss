@@ -5,14 +5,17 @@
 //phpinfo();
 
 /** Aggiungere la validazione del nome utente, deve essere un email corretta */
+
 require "./class/validator/Validable.php";
 require "./class/validator/ValidateRequired.php";
 require "./class/validator/ValidateMail.php";
 require "./class/validator/ValidateDate.php";
 require "./class/validator/ValidatePassword.php";
+require "./Regione.php";
 
 // print_r($_SERVER['REQUEST_METHOD']);
-print_r($_POST);
+//print_r($_POST);
+//print_r($_GET);
 
 $validatorName = new ValidateRequired('', 'Il nome è obbligatorio');
 $validatorLastName = new ValidateRequired('', 'Il cognome è obbligatorio');
@@ -44,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Questo script viene eseguito quando visualizzo per la prima volta il form
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-     
+    
 }
 ?>
 
@@ -110,19 +113,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                    <?php
                                    endif ?>
                          </div>
+
+                         <!-- LUOGO DI NASCITA -->
                          <div class="mb-3">
                               <label for="birth_place" class="form-label">Luogo di nascita</label>
-                              <input type="text" value="<?= $validatorBirthplace->getValue(); ?>" 
-                                   class="form-control <?php echo !$validatorBirthplace->getValid()? 'is-invalid' : '' ?>" 
-                                   name="birth_place" id="birth_place">
-                              <?php
-                                   if(!$validatorBirthplace->getValid()) : ?>
-                                        <div class="invalid-feedback">
-                                             <?= $validatorBirthplace->getMessage(); ?>
-                                        </div>
-                                    <?php
-                                   endif ?>
+                             
+                                   <select name="birth_place" id="birth_place">
+                                        <option value=""></option>
+                                       <?php select_nome_regioni();
+                                              ?>
+                                   </select>
                          </div>
+
+                         
 
                          <!-- GENDER -->
                          <div class="mb-3">
