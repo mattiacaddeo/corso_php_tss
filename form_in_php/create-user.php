@@ -24,7 +24,7 @@ $validatorBirthplace = new ValidateRequired('', 'Il luogo di nascita è obbligat
 $validatorGender = new ValidateRequired('', 'Il gender è obbligatorio');
 $validatorEmail = new ValidateMail('', 'email obbligatoria');
 $validatorPassword = new ValidatePassword('', 'password obbligatoria');
-
+$regione = new Regione();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      
@@ -120,8 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                              
                                    <select name="birth_place" id="birth_place">
                                         <option value=""></option>
-                                       <?php select_nome_regioni();
-                                              ?>
+                                        <?php $dati_regione = $regione->select_regioni();
+                                             foreach($dati_regione as $key => $regione) {
+                                                  echo "<option value=\"".$regione['nome']."\">".$regione['nome']."</option>";
+                                             }
+                                        ?>
                                    </select>
                          </div>
 

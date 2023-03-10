@@ -28,6 +28,6 @@ TRUNCATE TABLE Provincia;
 
 SELECT * FROM Regione;
 
-SELECT id_regione FROM Regione WHERE nome="Sardegna";
+SELECT id_regione FROM Regione WHERE nome='Sardegna';
 
 INSERT INTO Provincia (nome, sigla, id_regione) VALUES('Ciccio','Pa',99);
