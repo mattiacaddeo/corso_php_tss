@@ -5,33 +5,37 @@
 //phpinfo();
 
 /** Aggiungere la validazione del nome utente, deve essere un email corretta */
-
+require "../config.php";
 require "./class/validator/Validable.php";
 require "./class/validator/ValidateRequired.php";
 require "./class/validator/ValidateMail.php";
 require "./class/validator/ValidateDate.php";
 require "./class/validator/ValidatePassword.php";
-require "./Regione.php";
+require "./class/Registry/it/Regione.php";
+require "./class/Registry/it/Provincia.php";
 
 // print_r($_SERVER['REQUEST_METHOD']);
-//print_r($_POST);
-//print_r($_GET);
+print_r($_POST);
+print_r($_GET);
 
 $validatorName = new ValidateRequired('', 'Il nome è obbligatorio');
 $validatorLastName = new ValidateRequired('', 'Il cognome è obbligatorio');
 $validatorDate = new ValidateDate('', 'data obbligatoria');
-$validatorBirthplace = new ValidateRequired('', 'Il luogo di nascita è obbligatorio');
+$validatorBirthCity = new ValidateRequired('', 'La città è obbligatorio');
+$validatorBirthRegion = new ValidateRequired('', 'La regione è obbligatoria');
+$validatorBirthProvince = new ValidateRequired('', 'La provincia è obbligatoria');
 $validatorGender = new ValidateRequired('', 'Il gender è obbligatorio');
 $validatorEmail = new ValidateMail('', 'email obbligatoria');
 $validatorPassword = new ValidatePassword('', 'password obbligatoria');
-$regione = new Regione();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      
      $validatedName = $validatorName->isValid($_POST['first_name']);
      $validatedLastName = $validatorLastName->isValid($_POST['last_name']);
      $validatedDate = $validatorDate->isValid($_POST['birthday']);
-     $validatedBirthplace = $validatorBirthplace->isValid($_POST['birth_place']);
+     $validatedBirthCity = $validatorBirthCity->isValid($_POST['birth_city']);
+     $validatedBirthRegion = $validatorBirthRegion->isValid($_POST['birth_region']);
+     $validatedBirthProvince = $validatorBirthProvince->isValid($_POST['birth_province']);
      $value = isset($_POST['gender'])? $_POST['gender'] : '';
      $validatedGender = $validatorGender->isValid($value);
      $validatedEmail = $validatorEmail->isValid($_POST['username']);
@@ -115,19 +119,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          </div>
 
                          <!-- LUOGO DI NASCITA -->
+                         
+                         
                          <div class="mb-3">
-                              <label for="birth_place" class="form-label">Luogo di nascita</label>
-                             
-                                   <select name="birth_place" id="birth_place">
-                                        <option value=""></option>
-                                        <?php $dati_regione = $regione->select_regioni();
-                                             foreach($dati_regione as $key => $regione) {
-                                                  echo "<option value=\"".$regione['nome']."\">".$regione['nome']."</option>";
-                                             }
-                                        ?>
-                                   </select>
+                              <div class="row">
+                                   <div class="col"> 
+                                        <label for="birth_city" class="form-label">Città</label>
+                                        <input type="text" value="<?= $validatorBirthCity->getValue(); ?>" 
+                                             class="form-control <?php echo !$validatorBirthCity->getValid()? 'is-invalid' : '' ?>" 
+                                             name="birth_city" id="birth_city">
+                                             <?php
+                                             if(!$validatorBirthCity->getValid()) : ?>
+                                                  <div class="invalid-feedback">
+                                                       <?= $validatorBirthCity->getMessage(); ?>
+                                                  </div>
+                                             <?php
+                                             endif ?>
+                                       
+                                   </div>
+                                   <div class="col">
+                                        <label for="birth_region" class="form-label">Regione</label>
+                                        <select id="birth_region"  
+                                        class="birth_region form-select <?php echo !$validatorBirthRegion->getValid()? 'is-invalid' : '' ?>" 
+                                        name="birth_region">
+                                             <option value=""></option>
+                                             <?php foreach(Regione::all() as $key => $regione) : ?>
+                                                  <option <?= ($validatorBirthRegion->getValue() == $regione->id_regione)? 'selected' : '' ?> 
+                                                  value="<?= $regione->id_regione ?>"> <?= $regione->nome ?> </option>;
+                                             <?php endforeach ?>
+                                        </select>
+                                        <?php
+                                             if(!$validatorBirthRegion->getValid()) : ?>
+                                                  <div class="invalid-feedback">
+                                                       <?= $validatorBirthRegion->getMessage(); ?>
+                                                  </div>
+                                        <?php
+                                        endif ?>
+                                   </div>
+                                   <div class="col">
+                                        <label for="birth_province" class="form-label">Provincia</label>
+                                        <select id="birth_province" 
+                                        class="birth_province form-select <?php echo !$validatorBirthProvince->getValid()? 'is-invalid' : '' ?>" 
+                                        name="birth_province">
+                                             <option value=""></option>
+                                             <?php foreach(Provincia::all() as $key => $provincia) : ?>
+                                                  <option <?= ($validatorBirthProvince->getValue() == $provincia->id_provincia)? 'selected' : '' ?> 
+                                                  value="<?= $provincia->id_provincia ?>"> <?= $provincia->nome ?> </option>;
+                                             <?php endforeach ?>
+                                        </select>
+                                        <?php
+                                             if(!$validatorBirthProvince->getValid()) : ?>
+                                                  <div class="invalid-feedback">
+                                                       <?= $validatorBirthProvince->getMessage(); ?>
+                                                  </div>
+                                        <?php
+                                        endif ?>
+                                   </div>
+                              </div>
                          </div>
-
                          
 
                          <!-- GENDER -->

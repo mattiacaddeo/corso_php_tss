@@ -7,6 +7,7 @@
       - ogni validazione ha il suo messaggio di errore
       - impostare la classe di bootstrap 'is-invalid'
 */
+namespace validator;
 class ValidateRequired implements Validable {
     /** @var string rappresenta il valore immesso nel form ripulito */
     private $value;
@@ -22,6 +23,9 @@ class ValidateRequired implements Validable {
 
     public function isValid($value) {
         //$valueWithoutSpace = trim(strip_tags($value));
+        if($value != null) {
+            
+        }
         $strip_tag = strip_tags($value);
         $valueWithoutSpace = trim($strip_tag);
         if($valueWithoutSpace == '') {

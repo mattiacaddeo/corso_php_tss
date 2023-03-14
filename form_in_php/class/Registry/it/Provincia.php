@@ -1,0 +1,19 @@
+<?php
+namespace Registry\it;
+class Provincia {
+
+    public static function all() {
+        try {
+            $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
+            $stm = $conn->prepare("SELECT * FROM Provincia;");
+            $stm->execute();
+            $result = $stm->fetchAll(\PDO::FETCH_OBJ);
+        } catch (\Throwable $th) {
+            throw $th;
+        } finally {
+            return $result;
+        }
+    }
+}
+
+?>

@@ -1,5 +1,6 @@
 <?php
 
+namespace validator;
 class ValidatePassword implements Validable {
 
     private $password;

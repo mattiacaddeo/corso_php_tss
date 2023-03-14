@@ -1,5 +1,6 @@
 <?php
 
+namespace validator;
 class ValidateMail implements Validable {
 
     private $email;
