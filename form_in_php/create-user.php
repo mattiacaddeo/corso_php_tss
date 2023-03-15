@@ -5,14 +5,16 @@
 //phpinfo();
 
 /** Aggiungere la validazione del nome utente, deve essere un email corretta */
+
+use Registry\it\Provincia;
+use Registry\it\Regione;
+use validator\ValidateDate;
+use validator\ValidateMail;
+use validator\ValidatePassword;
+use validator\ValidateRequired;
+
 require "../config.php";
-require "./class/validator/Validable.php";
-require "./class/validator/ValidateRequired.php";
-require "./class/validator/ValidateMail.php";
-require "./class/validator/ValidateDate.php";
-require "./class/validator/ValidatePassword.php";
-require "./class/Registry/it/Regione.php";
-require "./class/Registry/it/Provincia.php";
+require "./autoload.php";
 
 // print_r($_SERVER['REQUEST_METHOD']);
 print_r($_POST);

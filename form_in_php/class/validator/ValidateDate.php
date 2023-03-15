@@ -15,18 +15,18 @@ class ValidateDate implements Validable {
 
     public function isValid($date)
     {
-        $result = trim(strip_tags($date));
+        // $result = trim(strip_tags($date));
         
-        $d = \DateTime::createFromFormat('d/m/Y', $result);
+        // $d = \DateTime::createFromFormat('d/m/Y', $result);
       
-        if($d->format('d/m/Y') === $result) {
-            //echo "$value date is valid.";
-            return $d->format('d/m/Y');
+        // if($d->format('d/m/Y') === $result) {
+        //     //echo "$value date is valid.";
+        //     return $d->format('d/m/Y');
             
-        } else {
-            return $result;
-        }
-        /*
+        // } else {
+        //     return $result;
+        // }
+        /**/
         $strip_tag = strip_tags($date);
         $valueWithoutSpace = trim($strip_tag);
         if($valueWithoutSpace == '') {
@@ -35,7 +35,7 @@ class ValidateDate implements Validable {
         }
         $this->date = $valueWithoutSpace;
         return $valueWithoutSpace;
-        */
+        
     }
 
     public function getMessage() {
