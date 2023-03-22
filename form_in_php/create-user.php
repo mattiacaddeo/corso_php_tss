@@ -12,6 +12,7 @@ use validator\ValidateDate;
 use validator\ValidateMail;
 use validator\ValidatePassword;
 use validator\ValidateRequired;
+use validator\ValidatorRunner;
 
 require "../config.php";
 require "./autoload.php";
@@ -19,41 +20,59 @@ require "./autoload.php";
 // print_r($_SERVER['REQUEST_METHOD']);
 print_r($_POST);
 print_r($_GET);
+/*
+$first_name = new ValidateRequired('', 'Il nome è obbligatorio');
+$last_name = new ValidateRequired('', 'Il cognome è obbligatorio');
+$birthday = new ValidateDate('', 'data obbligatoria');
+$birth_city = new ValidateRequired('', 'La città è obbligatorio');
+$birth_region = new ValidateRequired('', 'La regione è obbligatoria');
+$birth_province = new ValidateRequired('', 'La provincia è obbligatoria');
+$gender = new ValidateRequired('', 'Il gender è obbligatorio');
+$username = new ValidateMail('', 'email obbligatoria');
+$password = new ValidatePassword('', 'password obbligatoria');
+*/
+$validatorRunner = new ValidatorRunner([
+     'first_name' => new ValidateRequired('', 'Il nome è obbligatorio'),
+     'last_name' => new ValidateRequired('', 'Il cognome è obbligatorio'),
+     'birthday' => new ValidateDate('', 'data obbligatoria'),
+     'birth_city' => new ValidateRequired('', 'La città è obbligatorio'),
+     'birth_region' =>new ValidateRequired('', 'La regione è obbligatoria'),
+     'birth_province' => new ValidateRequired('', 'La provincia è obbligatoria'),
+     'gender' => new ValidateRequired('', 'Il gender è obbligatorio'),
+     'username' => new ValidateMail('', 'email obbligatoria'),
+     'password' => new ValidatePassword('', 'password obbligatoria')
+]);
+extract($validatorRunner->getValidatorList());
 
-$validatorName = new ValidateRequired('', 'Il nome è obbligatorio');
-$validatorLastName = new ValidateRequired('', 'Il cognome è obbligatorio');
-$validatorDate = new ValidateDate('', 'data obbligatoria');
-$validatorBirthCity = new ValidateRequired('', 'La città è obbligatorio');
-$validatorBirthRegion = new ValidateRequired('', 'La regione è obbligatoria');
-$validatorBirthProvince = new ValidateRequired('', 'La provincia è obbligatoria');
-$validatorGender = new ValidateRequired('', 'Il gender è obbligatorio');
-$validatorEmail = new ValidateMail('', 'email obbligatoria');
-$validatorPassword = new ValidatePassword('', 'password obbligatoria');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      
-     $validatedName = $validatorName->isValid($_POST['first_name']);
-     $validatedLastName = $validatorLastName->isValid($_POST['last_name']);
-     $validatedDate = $validatorDate->isValid($_POST['birthday']);
-     $validatedBirthCity = $validatorBirthCity->isValid($_POST['birth_city']);
-     $validatedBirthRegion = $validatorBirthRegion->isValid($_POST['birth_region']);
-     $validatedBirthProvince = $validatorBirthProvince->isValid($_POST['birth_province']);
+     $validatorRunner->isValid();
+     //extract($validatorRunner->getValidatorList());
+     if($validatorRunner->getValid()) {
+          echo "posso inviare i dati al server";
+     }
+    
+     /*
+     $first_name->isValid($_POST['first_name']);
+     $last_name->isValid($_POST['last_name']);
+     $birthday->isValid($_POST['birthday']);
+     $birth_city->isValid($_POST['birth_city']);
+     $birth_region->isValid($_POST['birth_region']);
+     $birth_province->isValid($_POST['birth_province']);
      $value = isset($_POST['gender'])? $_POST['gender'] : '';
-     $validatedGender = $validatorGender->isValid($value);
-     $validatedEmail = $validatorEmail->isValid($_POST['username']);
-     $validatedPassword = $validatorPassword->isValid($_POST['password']);
-
+     $gender->isValid($value);
+     $username->isValid($_POST['username']);
+     $password->isValid($_POST['password']);
+     */
 }
-// } else {
-//      echo "l'utente deve ancora compilare il form";
-// }
 
 // is-invalid
 //<input type="text" class="form-control is-invalid" name="first_name" id="first_name">
 
 // Questo script viene eseguito quando visualizzo per la prima volta il form
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    
+     
 }
 ?>
 
@@ -81,26 +100,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     <form class="mt-1 mt-md-5" action="create-user.php" method="POST">
                          <div class="mb-3">
                               <label for="first_name" class="form-label">Nome</label>
-                              <input type="text" value="<?= $validatorName->getValue(); ?>" 
-                                   class="form-control <?php echo !$validatorName->getValid()? 'is-invalid' : '' ?>" 
+                              <input type="text" value="<?= $first_name->getValue(); ?>" 
+                                   class="form-control <?php echo !$first_name->getValid()? 'is-invalid' : '' ?>" 
                                    name="first_name" id="first_name">
                                    <?php
-                                   if(!$validatorName->getValid()) : ?>
+                                   if(!$first_name->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             <?= $validatorName->getMessage(); ?>
+                                             <?= $first_name->getMessage(); ?>
                                         </div>
                                    <?php
                                    endif ?>
                          </div>
                          <div class="mb-3">
                               <label for="last_name" class="form-label">Cognome</label>
-                              <input type="text" value="<?= $validatorLastName->getValue(); ?>" 
-                                   class="form-control <?php echo !$validatorLastName->getValid()? 'is-invalid' : '' ?>"
+                              <input type="text" value="<?= $last_name->getValue(); ?>" 
+                                   class="form-control <?php echo !$last_name->getValid()? 'is-invalid' : '' ?>"
                                    name="last_name" id="last_name">
                                    <?php
-                                   if(!$validatorLastName->getValid()) : ?>
+                                   if(!$last_name->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             <?= $validatorLastName->getMessage(); ?>
+                                             <?= $last_name->getMessage(); ?>
                                         </div>
                                    <?php
                                    endif ?>
@@ -108,13 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          </div>
                          <div class="mb-3">
                               <label for="birthday" class="form-label">Data di nascita</label>
-                              <input type="date" value="<?= $validatorDate->getValue(); ?>" 
-                                   class="form-control <?php echo !$validatorDate->getValid()? 'is-invalid' : '' ?>" 
+                              <input type="date" value="<?= $birthday->getValue(); ?>" 
+                                   class="form-control <?php echo !$birthday->getValid()? 'is-invalid' : '' ?>" 
                                    name="birthday" id="birthday">
                               <?php
-                                   if(!$validatorDate->getValid()) : ?>
+                                   if(!$birthday->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             <?= $validatorDate->getMessage(); ?>
+                                             <?= $birthday->getMessage(); ?>
                                         </div>
                                    <?php
                                    endif ?>
@@ -127,33 +146,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                               <div class="row">
                                    <div class="col"> 
                                         <label for="birth_city" class="form-label">Città</label>
-                                        <input type="text" value="<?= $validatorBirthCity->getValue(); ?>" 
-                                             class="form-control <?php echo !$validatorBirthCity->getValid()? 'is-invalid' : '' ?>" 
+                                        <input type="text" value="<?= $birth_city->getValue(); ?>" 
+                                             class="form-control <?php echo !$birth_city->getValid()? 'is-invalid' : '' ?>" 
                                              name="birth_city" id="birth_city">
-                                             <?php
-                                             if(!$validatorBirthCity->getValid()) : ?>
+                                             <?php if(!$birth_city->getValid()) : ?>
                                                   <div class="invalid-feedback">
-                                                       <?= $validatorBirthCity->getMessage(); ?>
+                                                       <?= $birth_city->getMessage(); ?>
                                                   </div>
-                                             <?php
-                                             endif ?>
-                                       
+                                             <?php endif ?>
                                    </div>
                                    <div class="col">
                                         <label for="birth_region" class="form-label">Regione</label>
                                         <select id="birth_region"  
-                                        class="birth_region form-select <?php echo !$validatorBirthRegion->getValid()? 'is-invalid' : '' ?>" 
+                                        class="birth_region form-select <?php echo !$birth_region->getValid()? 'is-invalid' : '' ?>" 
                                         name="birth_region">
                                              <option value=""></option>
                                              <?php foreach(Regione::all() as $key => $regione) : ?>
-                                                  <option <?= ($validatorBirthRegion->getValue() == $regione->id_regione)? 'selected' : '' ?> 
+                                                  <option <?= ($birth_region->getValue() == $regione->id_regione)? 'selected' : '' ?> 
                                                   value="<?= $regione->id_regione ?>"> <?= $regione->nome ?> </option>;
                                              <?php endforeach ?>
                                         </select>
                                         <?php
-                                             if(!$validatorBirthRegion->getValid()) : ?>
+                                             if(!$birth_region->getValid()) : ?>
                                                   <div class="invalid-feedback">
-                                                       <?= $validatorBirthRegion->getMessage(); ?>
+                                                       <?= $birth_region->getMessage(); ?>
                                                   </div>
                                         <?php
                                         endif ?>
@@ -161,18 +177,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                    <div class="col">
                                         <label for="birth_province" class="form-label">Provincia</label>
                                         <select id="birth_province" 
-                                        class="birth_province form-select <?php echo !$validatorBirthProvince->getValid()? 'is-invalid' : '' ?>" 
+                                        class="birth_province form-select <?php echo !$birth_province->getValid()? 'is-invalid' : '' ?>" 
                                         name="birth_province">
                                              <option value=""></option>
                                              <?php foreach(Provincia::all() as $key => $provincia) : ?>
-                                                  <option <?= ($validatorBirthProvince->getValue() == $provincia->id_provincia)? 'selected' : '' ?> 
+                                                  <option <?= ($birth_province->getValue() == $provincia->id_provincia)? 'selected' : '' ?> 
                                                   value="<?= $provincia->id_provincia ?>"> <?= $provincia->nome ?> </option>;
                                              <?php endforeach ?>
                                         </select>
                                         <?php
-                                             if(!$validatorBirthProvince->getValid()) : ?>
+                                             if(!$birth_province->getValid()) : ?>
                                                   <div class="invalid-feedback">
-                                                       <?= $validatorBirthProvince->getMessage(); ?>
+                                                       <?= $birth_province->getMessage(); ?>
                                                   </div>
                                         <?php
                                         endif ?>
@@ -185,24 +201,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          <div class="mb-3">
                               <span>Genere</span>
                               <div class="form-check">
-                                   <input class="form-check-input <?php echo !$validatorGender->getValid()? 'is-invalid' : '' ?>" 
+                                   <input class="form-check-input <?php echo !$gender->getValid()? 'is-invalid' : '' ?>" 
                                         type="radio" name="gender" value="M" 
-                                        id="gender_M" <?php echo $validatorGender->getValue() == 'M'? 'checked' : ''; ?>>
+                                        id="gender_M" <?php echo $gender->getValue() == 'M'? 'checked' : ''; ?>>
                                    <label class="form-check-label" for="gender_M">
                                         Maschile
                                    </label>
                               </div>
                               <div class="form-check">
-                                   <input class="form-check-input <?php echo !$validatorGender->getValid()? 'is-invalid' : '' ?>" 
+                                   <input class="form-check-input <?php echo !$gender->getValid()? 'is-invalid' : '' ?>" 
                                         type="radio" name="gender" value="F" 
-                                        id="gender_F" <?php echo $validatorGender->getValue() == 'F'? 'checked' : ''; ?>>
+                                        id="gender_F" <?php echo $gender->getValue() == 'F'? 'checked' : ''; ?>>
                                    <label class="form-check-label" for="gender_F">
                                         Femminile
                                    </label>
                                    <?php
-                                   if(!$validatorGender->getValid()) : ?>
+                                   if(!$gender->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             <?= $validatorGender->getMessage(); ?>
+                                             <?= $gender->getMessage(); ?>
                                         </div>
                                    <?php 
                                    endif ?>
@@ -210,26 +226,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                          </div>
                               <div class="mb-3">
                                    <label for="username" class="form-label">Nome utente</label>
-                                   <input type="text" value="<?= $validatorEmail->getValue(); ?>" 
-                                        class="form-control <?php echo !$validatorEmail->getValid()? 'is-invalid' : '' ?>" 
+                                   <input type="text" value="<?= $username->getValue(); ?>" 
+                                        class="form-control <?php echo !$username->getValid()? 'is-invalid' : '' ?>" 
                                         name="username" id="username">
                                    <?php
-                                   if(!$validatorEmail->getValid()) : ?>
+                                   if(!$username->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             <?= $validatorEmail->getMessage(); ?>
+                                             <?= $username->getMessage(); ?>
                                         </div>
                                    <?php
                                    endif ?>                                   
                               </div>
                               <div class="mb-3">
                                    <label for="password" class="form-label">Password</label>
-                                   <input type="password" value="<?= $validatorPassword->getValue(); ?>" 
+                                   <input type="password" value="<?= $password->getValue(); ?>" 
                                         id="password" name="password" 
-                                        class="form-control <?php echo !$validatorPassword->getValid()? 'is-invalid' : '' ?>"> 
+                                        class="form-control <?php echo !$password->getValid()? 'is-invalid' : '' ?>"> 
                                    <?php
-                                   if(!$validatorPassword->getValid()) : ?>
+                                   if(!$password->getValid()) : ?>
                                         <div class="invalid-feedback">
-                                             <?= $validatorPassword->getMessage(); ?>
+                                             <?= $password->getMessage(); ?>
                                         </div>
                                    <?php
                                    endif ?>

@@ -6,21 +6,21 @@ use validator\ValidateMail;
 use validator\ValidateDate;
 use validator\ValidatePassword;
 use validator\ValidateRequired;
-require "./config.php";
+//require_once "./config.php";
 spl_autoload_register(function($className) {
-    echo "\n sto cercando $className \n";
+    //echo "\n sto cercando $className \n";
     $classPath =  str_replace("\\", "/", $className);
     include "./form_in_php/class/".$classPath.".php";
 });
 
 
-new ValidateMail();
-new ValidateDate();
-new ValidateRequired();
-new ValidatePassword();
+// new ValidateMail();
+// new ValidateDate();
+// new ValidateRequired();
+// new ValidatePassword();
 
-new Regione();
+//new Regione();
 
-Regione::all();
-Provincia::all();
+//Regione::all();
+//Provincia::all();
 ?>

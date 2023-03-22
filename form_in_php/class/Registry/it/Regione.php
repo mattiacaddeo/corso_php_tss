@@ -1,5 +1,6 @@
 <?php
 namespace Registry\it;
+
 class Regione {
 
     public static function all() {
@@ -11,9 +12,7 @@ class Regione {
             return $result;
         } catch (\Throwable $th) {
             throw $th;
-        } finally {
-            
-        }
+        } 
     }
 }
 

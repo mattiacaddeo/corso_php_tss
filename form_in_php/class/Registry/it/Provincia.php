@@ -1,5 +1,6 @@
 <?php
 namespace Registry\it;
+
 class Provincia {
 
     public static function all() {
@@ -8,11 +9,10 @@ class Provincia {
             $stm = $conn->prepare("SELECT * FROM Provincia;");
             $stm->execute();
             $result = $stm->fetchAll(\PDO::FETCH_OBJ);
+            return $result;
         } catch (\Throwable $th) {
             throw $th;
-        } finally {
-            return $result;
-        }
+        } 
     }
 }
 
