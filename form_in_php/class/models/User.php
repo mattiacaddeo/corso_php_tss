@@ -15,6 +15,16 @@ class User {
     public function label() {
         return $this->first_name." ".$this->last_name."\n";
     }
+    /*
+    public function getIdUser() {
+        return $this->id_user;
+    }
+    
+    public function setIdUser($id_user) {
+        $this->id_user = $id_user;
+    }
+    */
+    
 }
 
 

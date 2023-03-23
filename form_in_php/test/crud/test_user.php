@@ -22,7 +22,7 @@ include "form_in_php/test/test_autoload.php";
     $user->password = md5('Password');
     $crud->create($user);
 
-    $result = $crud->read();
+    $result = $crud->read(2);
     if(count($result) == 1) {
         echo "test utente inserito ok";
     }

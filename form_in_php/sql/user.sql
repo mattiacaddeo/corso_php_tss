@@ -22,3 +22,8 @@ VALUES ('Mario', 'Rossi', '2023-01-01', 'Torino', '18', '96', 'M', 'mariorossi@e
 
 ALTER TABLE `user` 
 ADD UNIQUE (username);
+
+SELECT * FROM user;
+
+UPDATE user SET first_name='Mario', last_name='Rossi', birthday='2023-03-15', birth_city='Torino', id_regione='18', id_provincia='96', 
+gender='M', username='mariorossi@email.com', password=MD5('password') WHERE id_user = 1;
