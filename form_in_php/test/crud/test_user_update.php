@@ -23,20 +23,8 @@ include "form_in_php/test/test_autoload.php";
     $crud->create($user);
     
     print_r($crud->read(1));
-    /*
-    $first_name = "Paolo";
-    $last_name = "Bianchi";
-    $birthday = "2017-01-01";
-    $birth_city = "Torino";
-    $id_provincia = "15";
-    $id_regione = "9";
-    $gender = "M";
-    $username = "luigiverdi@email.com";
-    $password = md5('Password');
-    $id_user = $user->getIdUser();
-    $crud->update($first_name, $last_name, $birthday, $birth_city, $id_regione, 
-        $id_provincia, $gender, $username, $password, $id_user);
-    */
+    
+    $user = $crud->read(1);
     $user->first_name = "Paolo";
     $user->last_name = "Bianchi";
     $user->birthday = "2017-01-01";
@@ -46,8 +34,8 @@ include "form_in_php/test/test_autoload.php";
     $user->gender = "M";
     $user->username = "luigiverdi@email.com";
     $user->password = md5('Password');
-    $id_user = 1;
-    $crud->update($user, $id_user);
+    
+    $crud->update($user);
 
     print_r($crud->read(1));
 
