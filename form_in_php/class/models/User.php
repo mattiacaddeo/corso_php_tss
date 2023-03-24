@@ -17,6 +17,9 @@ class User {
         return $this->first_name." ".$this->last_name."\n";
     }
     
+    /**
+     * 
+     */
     public static function arrayToUser(array $class_array) {
         $user = new User();
         foreach ($class_array as $class_attribute => $value_of_class_attribute) {
