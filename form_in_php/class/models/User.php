@@ -1,7 +1,8 @@
 <?php 
 namespace models;
+
 class User {
-    public $id_user;
+    //public $id_user;
     public $first_name;
     public $last_name;
     public $birthday;
@@ -15,6 +16,16 @@ class User {
     public function label() {
         return $this->first_name." ".$this->last_name."\n";
     }
+    
+    public static function arrayToUser(array $class_array) {
+        $user = new User();
+        foreach ($class_array as $class_attribute => $value_of_class_attribute) {
+            $user->$class_attribute = $value_of_class_attribute;
+        }
+       
+        return $user;
+    }
+
     /*
     public function getIdUser() {
         return $this->id_user;

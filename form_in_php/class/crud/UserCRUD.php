@@ -20,8 +20,9 @@ class UserCRUD {
         $stm->bindValue(':id_provincia', $user->id_provincia, \PDO::PARAM_INT);
         $stm->bindValue(':gender', $user->gender, \PDO::PARAM_STR);
         $stm->bindValue(':username', $user->username, \PDO::PARAM_STR);
-        $stm->bindValue(':password', $user->password, \PDO::PARAM_STR);
+        $stm->bindValue(':password', md5($user->password), \PDO::PARAM_STR);
         $stm->execute();
+
     }
     
     public function update(User $user) {
@@ -39,21 +40,20 @@ class UserCRUD {
         $stm->bindValue(':gender', $user->gender, \PDO::PARAM_STR);
         $stm->bindValue(':username', $user->username, \PDO::PARAM_STR);
         $stm->bindValue(':password', $user->password, \PDO::PARAM_STR);
-        $stm->bindValue(':id_user', $user->id_user, \PDO::PARAM_INT);
-
+        //$stm->bindValue(':id_user', $user->id_user, \PDO::PARAM_INT);
         $stm->execute();
+        return $stm->rowCount();
     }
     
     public function readAll() {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
-        
-            $query = "SELECT * FROM user;";
-            $stm = $conn->prepare($query);
-            $stm->execute();
-            $result = $stm->fetchAll(\PDO::FETCH_CLASS, User::class);
-            return $result;
-        
+        $query = "SELECT * FROM user;";
+        $stm = $conn->prepare($query);
+        $stm->execute();
+        $result = $stm->fetchAll(\PDO::FETCH_CLASS, User::class);
+        return $result;
     }
+
     public function read(int $id_user=null) {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         // oppure if($id_user !== null)

@@ -23,7 +23,7 @@ include "form_in_php/test/test_autoload.php";
     $crud->create($user);
     
     print_r($crud->read(1));
-    
+
     $user = $crud->read(1);
     $user->first_name = "Paolo";
     $user->last_name = "Bianchi";
@@ -35,7 +35,7 @@ include "form_in_php/test/test_autoload.php";
     $user->username = "luigiverdi@email.com";
     $user->password = md5('Password');
     
-    $crud->update($user);
+    print_r("\nModifiche effettuate: ".$crud->update($user)."\n");
 
     print_r($crud->read(1));
 
