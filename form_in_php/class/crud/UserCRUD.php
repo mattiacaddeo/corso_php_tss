@@ -44,15 +44,6 @@ class UserCRUD {
         $stm->execute();
         return $stm->rowCount();
     }
-    
-    public function readAll() {
-        $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
-        $query = "SELECT * FROM user;";
-        $stm = $conn->prepare($query);
-        $stm->execute();
-        $result = $stm->fetchAll(\PDO::FETCH_CLASS, User::class);
-        return $result;
-    }
 
     public function read(int $id_user=null) {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);

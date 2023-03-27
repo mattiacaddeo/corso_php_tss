@@ -20,7 +20,7 @@ class ValidateDate implements Validable {
         // $d = \DateTime::createFromFormat('d/m/Y', $result);
       
         // if($d->format('d/m/Y') === $result) {
-        //     //echo "$value date is valid.";
+        //echo "$value date is valid.";
         //     return $d->format('d/m/Y');
             
         // } else {
