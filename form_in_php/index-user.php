@@ -10,58 +10,63 @@ require "./class/views/head-view.php"; ?>
 <?php 
 
 $users = (new UserCRUD())->read();
-print_r($users);
-
-
-
-
+//print_r($users);
 
 ?>
-
-<section class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-4">
         <table class="table">
-        <tr>
-        <?php 
-        $utente = new User();
-        $propieta = get_object_vars($utente);
-        foreach ($propieta as $key => $value) :
-                    echo "<th>".$key."</th>";
-        endforeach ?>
-        <td>
-            <a href="create-user.php" class="btn btn-primary btn-xs">edit</a>
-            <a class="btn btn-danger btn-xs">delete</button>
-        </td>
-        </tr>
-            <!-- <tr>
+        <!-- <tr>
+            <?php 
+            $utente = new User();
+            $propieta = get_object_vars($utente);
+            foreach ($propieta as $key => $value) :
+                        echo "<th>".$key."</th>";
+            endforeach ?>
+            <td>
+                <th>Azioni</th>
+            </td>
+        </tr> -->
+            <tr>
                 
                 <th>#</th>
                 <th>Nome</th>
                 <th>Cognome</th>
-                <th>Comune</th>
-            </tr> -->
+                <th>Giorno di nascita</th>
+                <th>Città</th>
+                <th>Regione</th>
+                <th>Provincia</th>
+                <th>Genere</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Azioni</th>
+            </tr>
             
-            <?php foreach ($users as $value) :
+            <?php 
+            if($users) :
+            foreach ($users as $user) :
                     echo "<tr>";
-                    echo "<th>".$value->id_user."</th>";
-                    echo "<th>".$value->first_name."</th>";
-                    echo "<th>".$value->last_name."</th>";
-                    echo "<th>".$value->birthday."</th>";
-                    echo "<th>".$value->birth_city."</th>";
+                    echo "<th>".$user->id_user."</th>";
+                    echo "<th>".$user->first_name."</th>";
+                    echo "<th>".$user->last_name."</th>";
+                    echo "<th>".$user->birthday."</th>";
+                    echo "<th>".$user->birth_city."</th>";
+                    echo "<th>".$user->id_regione."</th>";
+                    echo "<th>".$user->id_provincia."</th>";
+                    echo "<th>".$user->gender."</th>";
+                    echo "<th>".$user->username."</th>";
+                    echo "<th>".$user->password."</th>";
             ?>
             <td>
-                <a href="create-user.php" class="btn btn-primary btn-xs">edit</a>
-                <a class="btn btn-danger btn-xs">delete</button>
+                <th>
+                <a href="edit-user.php?id_user=<?= $user->id_user?>" class="btn btn-primary btn-sm">edit</a>
+                <a href="delete-user.php?id_user=<?= $user->id_user?>" class="btn btn-danger btn-sm">delete</a>
+                </th>
             </td>
             <?php
                     echo "</tr>";
-            endforeach ?>
+            endforeach;
+            endif; ?>
                 
             
         </table>
-    </div>
-
-    <div class="col-sm-2"></div>
-</section>
+   
 <?php require "./class/views/foot-view.php"; ?>

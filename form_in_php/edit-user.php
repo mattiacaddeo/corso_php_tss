@@ -1,10 +1,26 @@
-<?php
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
-//phpinfo();
 
-/** Aggiungere la validazione del nome utente, deve essere un email corretta */
+<?php
+/*
+use crud\UserCRUD;
+
+require "../config.php";
+require "./autoload.php";
+
+$id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
+
+if($id_user) {
+    $crud = new UserCRUD;
+    $user = $crud->read($id_user);
+    print_r($user);
+} else {
+    echo "Problemi";
+}
+
+
+*/
+?>
+
+<?php
 
 use crud\UserCRUD;
 use models\User;
@@ -19,57 +35,37 @@ use validator\ValidatorRunner;
 require "../config.php";
 require "./autoload.php";
 
-// print_r($_SERVER['REQUEST_METHOD']);
-// print_r($_POST);
-// print_r($_GET);
+$id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
+$crud = new UserCRUD();
+$user = $crud->read($id_user);
 
 $validatorRunner = new ValidatorRunner([
-     'first_name' => new ValidateRequired('', 'Il nome è obbligatorio'),
-     'last_name' => new ValidateRequired('', 'Il cognome è obbligatorio'),
-     'birthday' => new ValidateDate('', 'data obbligatoria'),
-     'birth_city' => new ValidateRequired('', 'La città è obbligatorio'),
-     'id_regione' =>new ValidateRequired('', 'La regione è obbligatoria'),
-     'id_provincia' => new ValidateRequired('', 'La provincia è obbligatoria'),
-     'gender' => new ValidateRequired('', 'Il gender è obbligatorio'),
-     'username' => new ValidateMail('', 'email obbligatoria'),
+     'first_name' => new ValidateRequired($user->first_name, 'Il nome è obbligatorio'),
+     'last_name' => new ValidateRequired($user->last_name, 'Il cognome è obbligatorio'),
+     'birthday' => new ValidateDate($user->birthday, 'data obbligatoria'),
+     'birth_city' => new ValidateRequired($user->birth_city, 'La città è obbligatorio'),
+     'id_regione' =>new ValidateRequired($user->id_regione, 'La regione è obbligatoria'),
+     'id_provincia' => new ValidateRequired($user->id_provincia, 'La provincia è obbligatoria'),
+     'gender' => new ValidateRequired($user->gender, 'Il gender è obbligatorio'),
+     'username' => new ValidateMail($user->username, 'email obbligatoria'),
      'password' => new ValidatePassword('', 'password obbligatoria')
 ]);
 extract($validatorRunner->getValidatorList());
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-     
      $validatorRunner->isValid();
-     //extract($validatorRunner->getValidatorList());
-     //var_dump($validatorRunner->getValid());
      if($validatorRunner->getValid()) {
 
           $user = User::arrayToUser($_POST);
           $crud = new UserCRUD();
-          /*
-          try {
-               $crud->create($user);
-           } catch (\Throwable $th) {
-               
-               if($th->getCode() == "23000") {
-                    header("location: create-user.php");
-                   echo "Email già registrata";
-               } else {
-                    header("location: index-user.php");
-               }
-           }
-          */
-          
-          $crud->create($user);
+
+          $crud->update($user);
           // redirect
           header("location: index-user.php");
      }
 }
 
-// is-invalid
-//<input type="text" class="form-control is-invalid" name="first_name" id="first_name">
-
-// Questo script viene eseguito quando visualizzo per la prima volta il form
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
      
 }
@@ -80,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
           <section class="row">
                <div class="col-sm-4"></div>
                <div class="col-sm-4">
-                    <form class="mt-1 mt-md-5" action="create-user.php" method="POST">
+                    <form class="mt-1 mt-md-5" action="edit-user.php" method="POST">
                          <div class="mb-3">
                               <label for="first_name" class="form-label">Nome</label>
                               <input type="text" value="<?= $first_name->getValue(); ?>" 
@@ -209,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         </div>
                               <?php endif ?>
                          </div>
-                         <button class="btn btn-primary btn-sm" type="submit">Registrati</button>
+                         <button class="btn btn-primary btn-sm" type="submit">Aggiorna dati</button>
                     </form>
                </div>
 
