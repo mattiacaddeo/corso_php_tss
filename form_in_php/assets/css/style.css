@@ -2,6 +2,20 @@ body {
     padding-bottom: 4rem;
 }
 
+.row {
+    margin-top: 1rem;
+}
+
+.btn {
+    background-color: darksalmon;
+    margin-top: 0.50rem;
+    
+}
+
+.btn-primary {
+    --bs-btn-hover-bg: crimson;
+}
+
 .footer-bottom {
     position: fixed;
     width: 100%;
@@ -31,6 +45,10 @@ body {
 }
 
 .date-picker {
-    display: flex;
-    
+    width: 50%;
+}
+
+.form-label {
+    margin-bottom: 0;
+    margin-top: 0.5rem;
 }
