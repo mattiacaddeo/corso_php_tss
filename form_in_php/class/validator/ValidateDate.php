@@ -14,19 +14,22 @@ class ValidateDate implements Validable {
     }
 
     public function isValid($date)
-    {
-        // $result = trim(strip_tags($date));
+    {/*
+        $strip_tag = strip_tags($date);
+        $valueWithoutSpace = trim($strip_tag);
         
-        // $d = \DateTime::createFromFormat('d/m/Y', $result);
-      
-        // if($d->format('d/m/Y') === $result) {
-        //     //echo "$value date is valid.";
-        //     return $d->format('d/m/Y');
+        $d = \DateTime::createFromFormat('d-m-Y', $valueWithoutSpace);
+        $date2 = $d->format('Y-m-d');
+        if($date2 === $valueWithoutSpace) {
+            //echo "$date date is valid.";
+            return $valueWithoutSpace;
             
-        // } else {
-        //     return $result;
-        // }
-        /**/
+        } else {
+            $this->valid = false;
+            return false;
+            //return $valueWithoutSpace;
+        }*/
+        
         $strip_tag = strip_tags($date);
         $valueWithoutSpace = trim($strip_tag);
         if($valueWithoutSpace == '') {

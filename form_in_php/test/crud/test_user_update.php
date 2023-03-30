@@ -24,20 +24,31 @@ include "form_in_php/test/test_autoload.php";
     
     print_r($crud->read(1));
 
-    $user = $crud->read(1);
+    $user2 = $crud->read(1);
+/*
     $user->first_name = "Paolo";
     $user->last_name = "Bianchi";
-    $user->birthday = "2017-01-01";
-    $user->birth_city = "Torino";
-    $user->id_provincia = "15";
-    $user->id_regione = "9";
-    $user->gender = "M";
-    $user->username = "luigiverdi@email.com";
-    $user->password = md5('Password');
-    
-    print_r("\nModifiche effettuate: ".$crud->update($user)."\n");
+*/
+    $user2->first_name = "Luigi";
+    $user2->last_name = "Verdi";
+    $user2->birthday = "2017-01-01";
+    $user2->birth_city = "Torino";
+    $user2->id_provincia = "15";
+    $user2->id_regione = "9";
+    $user2->gender = "M";
+    $user2->username = "luigiverdi@email.com";
+    $user2->password = md5('Password');
 
-    print_r($crud->read(1));
+    $result = $crud->update($user2);
+    
+    if($result>0) {
+        print_r("\nModifiche effettuate: ".$result."\n");
+    } else {
+        print_r("\nNessuna modifica: ".$result."\n");
+    }
+    
+
+    //print_r($crud->read(1));
 
     
 echo "\n";
