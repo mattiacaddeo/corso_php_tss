@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $user = User::arrayToUser($_POST);
           $crud = new UserCRUD();
 
-          $crud->update($user);
+          $crud->update($user, $id_user);
           // redirect
           header("location: index-user.php");
      }
@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 ?>
 <?php require "./class/views/head-view.php";?>
 
-     
           <section class="row">
                <div class="col-sm-4"></div>
                <div class="col-sm-4">
