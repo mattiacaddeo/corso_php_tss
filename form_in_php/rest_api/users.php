@@ -82,38 +82,45 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $invalid_id = true;
             }
         }
-        
-        
+
         if (!is_null($id_user)) {
             if($invalid_id) {
-                http_response_code(404);
-                echo "ID Errato";
-            } else {
-            $rows = $crud->update($user, $id_user);
-            if ($rows == 1) {
-                http_response_code(202);
-                unset($user->password);
-                unset($user->username);
-                $user->id_user = $id_user;
-                $response = [
-                    'data' => $user,
-                    'status' => 202
-                ];
-            }
-            if ($rows == 0) {
                 http_response_code(404);
                 $response = [
                     'errors' => [
                         [
-                            "title" =>  "Nessuna modifica",
+                            "status" => "404",
+                            "title" =>  "ID non esistente",
                             "detail" => $id_user
                         ]
                     ]
                 ];
+            } else {
+                $rows = $crud->update($user, $id_user);
+                if ($rows == 1) {
+                    http_response_code(202);
+                    unset($user->password);
+                    unset($user->username);
+                    $user->id_user = $id_user;
+                    $response = [
+                        'data' => $user,
+                        'status' => 202
+                    ];
+                }
+                if ($rows == 0) {
+                    http_response_code(404);
+                    $response = [
+                        'errors' => [
+                            [
+                                "title" =>  "Nessuna modifica",
+                                "detail" => $id_user
+                            ]
+                        ]
+                    ];
+                }
             } 
-            echo json_encode($response);
-        } 
-    }
+        }
+        echo json_encode($response);
         break;
 
     default:
