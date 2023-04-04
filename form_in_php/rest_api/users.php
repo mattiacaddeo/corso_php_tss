@@ -6,6 +6,7 @@ use models\User;
 require "../../config.php";
 require "../autoload.php";
 //echo $_SERVER['REQUEST_METHOD'];
+
 $crud = new UserCRUD();
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -18,6 +19,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
 
         break;
+
     case 'DELETE':
         $id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
         if (!is_null($id_user)) {
@@ -39,7 +41,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
             }
             echo json_encode($response);
         }
-
         break;
 
     case 'POST':
@@ -63,7 +64,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $user['id_user'] = $last_id;
         $response = [
             'data' => $user,
-            'status' => 202
+            'status' => 201
         ];
         echo json_encode($response);
         break;
@@ -76,9 +77,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $users = $crud->read();
         $invalid_id = false;
-        //print_r($users[0]->id_user);
         for ($i=0; $i < sizeof($users); $i++) { 
-            if($users[$i]->id_user != $id_user) {
+            if($users[$i]->id_user == $id_user) {
+                break;
+            } else {
                 $invalid_id = true;
             }
         }
