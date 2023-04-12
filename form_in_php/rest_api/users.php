@@ -9,6 +9,7 @@ require "../autoload.php";
 
 $crud = new UserCRUD();
 switch ($_SERVER['REQUEST_METHOD']) {
+    /*
     case 'GET':
         $id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
         if (!is_null($id_user)) {
@@ -18,6 +19,34 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode($users);
         }
 
+        break;
+    */
+    case 'GET':
+        $id_user = filter_input(INPUT_GET,'id_user');
+        if(!is_null($id_user)){
+            $res = $crud->read($id_user);
+            if($res == false){
+                $response = [
+                    'errors' => [
+                        [
+                            'status' => 404,
+                            'title' => "risorsa non trovata",
+                            'details' => filter_input(INPUT_GET,'id_user')
+                         ]
+                    ]    
+                ];  
+                echo json_encode($response);
+            }else{
+                echo json_encode($res);
+            }
+        }else{
+            $users = $crud->read();
+            $response = [
+                'data' => $users,
+                'status'=>200
+            ]; 
+            echo json_encode($response);
+        }
         break;
 
     case 'DELETE':

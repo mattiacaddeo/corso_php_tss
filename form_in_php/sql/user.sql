@@ -27,3 +27,11 @@ SELECT * FROM user;
 
 UPDATE user SET first_name='Mario', last_name='Rossi', birthday='2023-03-15', birth_city='Torino', id_regione='18', id_provincia='96', 
 gender='M', username='mariorossi@email.com', password=MD5('password') WHERE id_user = 1;
+
+SET FOREIGN_KEY_CHECKS=0; 
+SET FOREIGN_KEY_CHECKS=1; 
+
+TRUNCATE TABLE user;
+
+ALTER TABLE `Task`
+ ADD FOREIGN KEY (id_user) REFERENCES user(id_user);
