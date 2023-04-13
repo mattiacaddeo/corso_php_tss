@@ -19,7 +19,7 @@ class TaskCRUD {
         return $conn->lastInsertId();
     }
 
-    public function readTask(int $id_user=null):Task|array|bool {
+    public function readTask(int $id_user=null, int $id_task=null):Task|array|bool {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         if(!is_null($id_user)) {
             $query = "SELECT * FROM Task WHERE id_user = :id_user;";
@@ -46,6 +46,37 @@ class TaskCRUD {
             }
             return $result;
         }
+    }
+
+    public function readTaskId(int $id_task):Task|array|bool {
+        $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
+        if(!is_null($id_task)) {
+            $query = "SELECT * FROM Task WHERE id_task = :id_task;";
+            $stm = $conn->prepare($query);
+            $stm->bindValue(':id_task', $id_task, \PDO::PARAM_INT);
+            $stm->execute();
+            $result = $stm->fetchAll(\PDO::FETCH_CLASS, Task::class);
+            if(count($result)==1) {
+                return $result[0];
+            }
+            if(count($result)>1) {
+                throw new \Exception("Chiave primaria duplicata", 1);
+            }
+            if(count($result) === 0) {
+                return false;
+            }
+        } else {
+            $query = "SELECT * FROM Task;";
+            $stm = $conn->prepare($query);
+            $stm->execute();
+            $result = $stm->fetchAll(\PDO::FETCH_CLASS, Task::class);
+            if(count($result) === 0) {
+                return false;
+            }
+            return $result;
+        }
+
+
     }
 
     public function updateTask(Task $task, $id_task) {

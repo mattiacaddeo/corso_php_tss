@@ -37,13 +37,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 ];  
                 echo json_encode($response);
             }else{
-                echo json_encode($res);
+                $response = [
+                    'data' => $res,
+                    'status' => 200
+                ]; 
+                echo json_encode($response);
             }
         }else{
             $users = $crud->read();
             $response = [
                 'data' => $users,
-                'status'=>200
+                'status' => 200
             ]; 
             echo json_encode($response);
         }
@@ -54,7 +58,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (!is_null($id_user)) {
             $rows = $crud->delete($id_user);
             if ($rows == 1) {
-                http_response_code(204);
+                http_response_code(200);
+                $response = [
+                    'data' => $id_user,
+                    'status' => 200
+                ];
             }
             if ($rows == 0) {
                 http_response_code(404);
