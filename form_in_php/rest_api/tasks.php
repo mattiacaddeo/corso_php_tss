@@ -134,7 +134,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     ]
                 ];
             } else {
-                $rows = $crud->updateTask($task, $id_task);
+                $rows = $crud->updateTask($task);
                 if ($rows == 1) {
                     http_response_code(202);
                     $task->id_task = $id_task;

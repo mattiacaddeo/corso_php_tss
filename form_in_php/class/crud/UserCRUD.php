@@ -26,6 +26,9 @@ class UserCRUD {
     }
     
     public function update(User $user, $id_user) {
+        if(!$this->read($user->id_user)){
+            throw new \Exception("utente inesistente", 404);
+        }
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $query = "UPDATE user SET first_name=:first_name, last_name=:last_name, 
                 birthday=:birthday, birth_city=:birth_city, id_regione=:id_regione, id_provincia=:id_provincia, 
@@ -45,7 +48,7 @@ class UserCRUD {
         return $stm->rowCount();
     }
 
-    public function read(int $id_user=null) {
+    public function read(int $id_user=null):User|array|bool {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         // oppure if($id_user !== null)
         if(!is_null($id_user)) {

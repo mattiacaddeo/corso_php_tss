@@ -23,8 +23,12 @@ class User {
     public static function arrayToUser(array $class_array) {
         $user = new User();
         foreach ($class_array as $class_attribute => $value_of_class_attribute) {
+            if($class_attribute=="id_user") {
+                continue;
+            }
             $user->$class_attribute = $value_of_class_attribute;
         }
+        
        
         return $user;
     }

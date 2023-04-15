@@ -79,7 +79,10 @@ class TaskCRUD {
 
     }
 
-    public function updateTask(Task $task, $id_task) {
+    public function updateTask(Task $task) {
+        if(!$this->readTask($task->id_task)){
+            throw new \Exception("utente inesistente", 404);
+        }
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $query = "UPDATE Task SET id_user=:id_user, name=:name, due_date=:due_date, done=:done WHERE id_task = :id_task;";
         $stm = $conn->prepare($query);
@@ -87,7 +90,7 @@ class TaskCRUD {
         $stm->bindValue(':name', $task->name, \PDO::PARAM_STR);
         $stm->bindValue(':due_date', $task->due_date, \PDO::PARAM_STR);
         $stm->bindValue(':done', $task->done, \PDO::PARAM_INT);
-        $stm->bindValue(':id_task', $id_task, \PDO::PARAM_INT);
+        $stm->bindValue(':id_task', $task->id_task, \PDO::PARAM_INT);
         $stm->execute();
         return $stm->rowCount();
     }

@@ -1,25 +1,3 @@
-
-<?php
-/*
-use crud\UserCRUD;
-
-require "../config.php";
-require "./autoload.php";
-
-$id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
-
-if($id_user) {
-    $crud = new UserCRUD;
-    $user = $crud->read($id_user);
-    print_r($user);
-} else {
-    echo "Problemi";
-}
-
-
-*/
-?>
-
 <?php
 
 use crud\UserCRUD;
@@ -36,8 +14,18 @@ require "config.php";
 require "./autoload.php";
 
 $id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
-$crud = new UserCRUD();
-$user = $crud->read($id_user);
+
+// $crud = new UserCRUD();
+// $user = $crud->read($id_user);
+
+if($_SERVER['REQUEST_METHOD'] === 'GET'){
+     $crud = new UserCRUD();
+     $user = $crud->read($id_user);
+     
+ } else {
+     $user = User::arrayToUser($_POST); // id_user = NULL
+     
+ }
 
 $validatorRunner = new ValidatorRunner([
      'first_name' => new ValidateRequired($user->first_name, 'Il nome è obbligatorio'),
@@ -56,26 +44,23 @@ extract($validatorRunner->getValidatorList());
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      $validatorRunner->isValid();
      if($validatorRunner->getValid()) {
-
-          $user = User::arrayToUser($_POST);
+          //$user = User::arrayToUser($_POST);
           $crud = new UserCRUD();
-
+          
           $crud->update($user, $id_user);
+          
           // redirect
           header("location: index-user.php");
      }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-     
-}
 ?>
 <?php require "./class/views/head-view.php";?>
 
           <section class="row">
                <div class="col-sm-4"></div>
                <div class="col-sm-4">
-                    <form class="mt-1 mt-md-5" action="edit-user.php" method="POST">
+                    <form class="mt-1 mt-md-5" action="edit-user.php?<?php echo "id_user=".$id_user ?>" method="POST">
                          <div class="mb-3">
                               <label for="first_name" class="form-label">Nome</label>
                               <input type="text" value="<?= $first_name->getValue(); ?>" 
