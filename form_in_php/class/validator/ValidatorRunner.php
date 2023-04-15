@@ -22,7 +22,7 @@ class ValidatorRunner {
         }
     }
 
-    public function getValid():bool {
+    public function getValid() {
 
         $allValid = true;
         foreach($this->validatorList as $name_attribute => $instance_validator) {

@@ -1,8 +1,8 @@
 <?php
 
 use crud\UserCRUD;
+include "config.php";
 require "./autoload.php";
-require "../config.php";
 
 $id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);
 print_r($id_user);

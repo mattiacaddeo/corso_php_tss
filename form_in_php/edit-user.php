@@ -32,7 +32,7 @@ use validator\ValidatePassword;
 use validator\ValidateRequired;
 use validator\ValidatorRunner;
 
-require "../config.php";
+require "config.php";
 require "./autoload.php";
 
 $id_user = filter_input(INPUT_GET, 'id_user', FILTER_VALIDATE_INT);

@@ -16,7 +16,7 @@ use validator\ValidatePassword;
 use validator\ValidateRequired;
 use validator\ValidatorRunner;
 
-require "../config.php";
+include "config.php";
 require "./autoload.php";
 
 // print_r($_SERVER['REQUEST_METHOD']);

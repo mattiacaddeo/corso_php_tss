@@ -19,7 +19,7 @@ class TaskCRUD {
         return $conn->lastInsertId();
     }
 
-    public function readTask(int $id_user=null, int $id_task=null):Task|array|bool {
+    public function readTask(int $id_user=null, int $id_task=null) {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         if(!is_null($id_user)) {
             $query = "SELECT * FROM Task WHERE id_user = :id_user;";
@@ -48,7 +48,7 @@ class TaskCRUD {
         }
     }
 
-    public function readTaskId(int $id_task):Task|array|bool {
+    public function readTaskId(int $id_task) {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         if(!is_null($id_task)) {
             $query = "SELECT * FROM Task WHERE id_task = :id_task;";
