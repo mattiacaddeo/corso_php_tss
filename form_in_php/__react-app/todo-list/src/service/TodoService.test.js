@@ -1,4 +1,4 @@
-import { activeFilter, addTask, completedFilter, removeTask, updateTask } from "./TodoService.js";
+import { activeFilter, addTask, completedFilter, removeTask, updateTask } from "./__TodoService.js";
 
 const taskList = [
     {

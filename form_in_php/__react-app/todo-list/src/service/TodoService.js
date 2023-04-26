@@ -21,7 +21,7 @@ export const updateTask = (taskToUpdate, todos) => {
             return {...task, ...taskToUpdate};
         }
         return task;
-    }))
+    }));
 }
 
 export const activeFilter = (todos) => {
