@@ -1,4 +1,4 @@
-import { activeFilter, addTask, completedFilter, removeTask, updateTask } from "./__TodoService.js";
+import { activeFilter, addTask, completedFilter, removeTask, updateTask } from "./TodoService.js";
 
 const taskList = [
     {
@@ -34,7 +34,7 @@ if(!(activeTaskList.length == 1)) {
 
 const completedTask = completedFilter(taskList);
 
-if(!(activeTaskList.length == 2)) {
+if(!(completedTask.length == 2)) {
     console.log("test completedTaskList fallito");
 }
 
@@ -49,8 +49,8 @@ const newTask = {
 
 const newTaskList = addTask(newTask, taskList);
 
-console.log("Nuova lista: ")
-console.log(newTaskList);
+// console.log("Nuova lista: ")
+// console.log(newTaskList);
 console.log("---------")
 // console.log(taskList);
 
@@ -58,9 +58,35 @@ if(!(newTaskList.length == 4)) {
     console.log("test addTask fallito");
 }
 
+const newTaskNoName = {
+    id_user: 12,
+    name: " l ",
+    due_date: "2000-03-01",
+    done: false
+}
+
+try {
+    const newTaskListNoName = addTask(newTaskNoName, taskList);
+    console.log("Il test è fallito");
+} catch (error) {
+    if(!(error.message === "Il nome non è stato inserito")) {
+        console.log("Test fallito, non ho trovato l'errore che mi aspettavo");
+    }
+}
+
+const addToTrimTask = addTask(newTaskNoName, taskList);
+
+const result = addToTrimTask.find(function(task, index) {
+    return task.name == newTaskNoName.name.trim();
+});
+if(result === undefined) {
+    console.log("Test fallito (result = undefined)")
+}
+console.log("result:", result);
+
 const id_task = 32;
 const removedTaskList = removeTask(id_task, taskList);
-console.log(removedTaskList);
+//console.log(removedTaskList);
 
 const taskToUpdate = {
     name: "nuovo nome task",
@@ -68,4 +94,4 @@ const taskToUpdate = {
 }
 const updatedTaskList = updateTask(taskToUpdate, taskList);
 
-console.log()
+//console.log()

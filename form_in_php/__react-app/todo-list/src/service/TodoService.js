@@ -1,7 +1,17 @@
 
 export const addTask = (newTask, todos) => {
+
+    if(newTask.name === undefined || newTask.name.trim() === "") {
+        throw new Error("Il nome non è stato inserito");
+    }
+
+    //! shallow copy della task list
+    //react lavora per differenze
     const newTodos = [...todos];
-    const newTaskCopy = {...newTask};
+    const newTaskCopy = {...newTask, ...{name: newTask.name.trim()}};
+    //* Oppure 
+    //const newTaskCopy = {...newTask}; 
+    //newTaskCopy.name = newTaskCopy.name.trim();
     newTaskCopy.id_task = (new Date).getTime();
     newTodos.push(newTaskCopy);
     return newTodos;
